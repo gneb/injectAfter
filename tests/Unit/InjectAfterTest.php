@@ -10,8 +10,26 @@ class InjectAfterTEst extends TestCase
     /** @test*/
     public function it_inserts_to_array(): void 
     {
-        $res = injectAfter(["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6], 'bbb', 'aaa', 7);
+        $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
+        $res = injectAfter($array, "bbb", "aaa", 7);
         $excepted = 5;
         $this->assertEquals($excepted, count($res));
+    }
+
+    /** @test*/
+    public function it_inserts_end_of_array(): void 
+    {
+        $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
+        $res = injectAfter($array, "bbb", "aaa", 7);
+
+        $lastElement = end($res);
+        $lastElemetKey = key($res);
+        $excepted = ["aaa" => 7];
+        $expectedElement = end($excepted);
+        $expectedElementKey = key($excepted);
+        // assert values
+        $this->assertEquals($lastElement, $expectedElement);
+        //assert keys
+        $this->assertEquals($lastElemetKey, $expectedElementKey);
     }
 }
