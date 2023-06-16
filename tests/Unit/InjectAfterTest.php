@@ -32,4 +32,16 @@ class InjectAfterTEst extends TestCase
         //assert keys
         $this->assertEquals($lastElemetKey, $expectedElementKey);
     }
+
+    /** @test*/
+    public function it_inserts_end_of_array_and_rest_of_array_stays_same(): void 
+    {
+        $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
+        $res = injectAfter($array, "bbb", "aaa", 7);
+
+        $expected = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
+        
+
+        $this->assertEquals($expected, array_slice($res, 0, count($expected )));
+    }
 }
