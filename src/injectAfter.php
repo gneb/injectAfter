@@ -29,7 +29,5 @@ if( ! function_exists('injectAfter') ) {
         $rightPart = array_slice($array, $indexToSlice + 1, count($array));
         $leftPart[$newKey] = $newValue;
         return array_merge($leftPart, $rightPart);
-    
     }
 }
-
