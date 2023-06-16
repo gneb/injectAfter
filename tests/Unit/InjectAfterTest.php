@@ -70,10 +70,25 @@ class InjectAfterTEst extends TestCase
         $leftPart = array_slice($res, 0, $indexOfInserted + 1);
         // skip inserted element, so + 2
         $rightPart = array_slice($res, $indexOfInserted + 2, count($res));
-        
+
         // assert left part
         $this->assertEquals($leftPart, array_slice($array, 0, $indexOfInserted + 1));
         // assert right part
         $this->assertEquals($rightPart, array_slice($array, $indexOfInserted + 1, count($array)));
     } 
+
+    /** @test*/
+    public function it_inserts_at_random_index_of_array_and_replaces_value(): void 
+    {
+        $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
+        $randElement = array_rand($array);
+        $randElementToReplace = array_rand($array);
+        $res = injectAfter($array, $randElement, $randElementToReplace, 7);
+        $indexOfReplaced = array_search($randElementToReplace, array_keys($res));
+        
+        // assert value for replaced element
+        $this->assertEquals($res[$randElementToReplace], 7);
+        // assert value for replaced element
+        $this->assertEquals(array_keys($res)[$indexOfReplaced], $randElementToReplace);
+    }
 }
