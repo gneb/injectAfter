@@ -44,4 +44,20 @@ class InjectAfterTEst extends TestCase
 
         $this->assertEquals($expected, array_slice($res, 0, count($expected )));
     }
+
+
+    /** @test*/
+    public function it_inserts_at_random_index_of_array(): void 
+    {
+        $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
+        $randElement = array_rand($array);
+
+        $res = injectAfter($array, $randElement, "aaa", 7);
+        $indexOfInserted = array_search($randElement, array_keys($res));
+        
+        // assert key
+        $this->assertEquals(array_keys($res)[$indexOfInserted + 1], "aaa");
+        // assert value
+        $this->assertEquals(array_values($res)[$indexOfInserted + 1], 7);
+    }
 }
