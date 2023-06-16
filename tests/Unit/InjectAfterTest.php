@@ -104,4 +104,22 @@ class InjectAfterTEst extends TestCase
         // assert sizes of arrays
         $this->assertEquals(count($res), count($array));
     }
+
+    /** @test*/
+    public function it_inserts_at_random_index_of_array_replaces_value_and_rest_of_array_stays_same(): void 
+    {
+        $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
+        $randElement = array_rand($array);
+        $randElementToReplace = array_rand($array);
+        $res = injectAfter($array, $randElement, $randElementToReplace, 7);
+        $indexOfReplaced = array_search($randElementToReplace, array_keys($res));
+        $leftPart = array_slice($res, 0, $indexOfReplaced - 1);
+        $rightPart = array_slice($res, $indexOfReplaced + 1, count($res));
+
+        // assert both arrays except changed element and key
+        unset($array[$randElementToReplace]);
+        unset($res[$randElementToReplace]);
+        $this->assertEquals($array, $res);
+
+    } 
 }
