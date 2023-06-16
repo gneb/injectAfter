@@ -13,6 +13,7 @@ class InjectAfterTEst extends TestCase
         $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
         $res = injectAfter($array, "bbb", "aaa", 7);
         $excepted = 5;
+
         $this->assertEquals($excepted, count($res));
     }
 
@@ -27,6 +28,7 @@ class InjectAfterTEst extends TestCase
         $excepted = ["aaa" => 7];
         $expectedElement = end($excepted);
         $expectedElementKey = key($excepted);
+
         // assert values
         $this->assertEquals($lastElement, $expectedElement);
         //assert keys
@@ -38,10 +40,8 @@ class InjectAfterTEst extends TestCase
     {
         $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
         $res = injectAfter($array, "bbb", "aaa", 7);
-
         $expected = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
         
-
         $this->assertEquals($expected, array_slice($res, 0, count($expected )));
     }
 
@@ -51,13 +51,29 @@ class InjectAfterTEst extends TestCase
     {
         $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
         $randElement = array_rand($array);
-
         $res = injectAfter($array, $randElement, "aaa", 7);
         $indexOfInserted = array_search($randElement, array_keys($res));
         
-        // assert key
+        // assert key for next element
         $this->assertEquals(array_keys($res)[$indexOfInserted + 1], "aaa");
-        // assert value
+        // assert value for next element
         $this->assertEquals(array_values($res)[$indexOfInserted + 1], 7);
     }
+
+    /** @test*/
+    public function it_inserts_at_random_index_of_array_and_rest_of_array_stays_same(): void 
+    {
+        $array = ["foo" => 3, "bar" => 1, "bob" => 5, "gog" => 6];
+        $randElement = array_rand($array);
+        $res = injectAfter($array, $randElement, "aaa", 7);
+        $indexOfInserted = array_search($randElement, array_keys($res));
+        $leftPart = array_slice($res, 0, $indexOfInserted + 1);
+        // skip inserted element, so + 2
+        $rightPart = array_slice($res, $indexOfInserted + 2, count($res));
+        
+        // assert left part
+        $this->assertEquals($leftPart, array_slice($array, 0, $indexOfInserted + 1));
+        // assert right part
+        $this->assertEquals($rightPart, array_slice($array, $indexOfInserted + 1, count($array)));
+    } 
 }
