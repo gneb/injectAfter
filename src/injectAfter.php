@@ -23,7 +23,7 @@ if( ! function_exists('injectAfter') ) {
             injectAfter($array, $afterKey, $newKey, $newValue);
         }
 
-        // slive array and insert end of first part
+        // slice array and insert end of first part
         $indexToSlice = array_search($afterKey,array_keys($array));
         $leftPart = array_slice($array, 0, $indexToSlice + 1);
         $rightPart = array_slice($array, $indexToSlice + 1, count($array));
